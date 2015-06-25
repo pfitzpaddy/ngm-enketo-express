@@ -7,7 +7,7 @@
  * types.
  */
 
-define( [ "q", "store", "settings", "jquery" ], function( Q, store, settings, $ ) {
+define( [ "store", "settings", "jquery" ], function( store, settings, $ ) {
     "use strict";
 
     var supported = typeof FileReader !== 'undefined',
@@ -18,15 +18,13 @@ define( [ "q", "store", "settings", "jquery" ], function( Q, store, settings, $ 
      * @return {[type]} promise boolean or rejection with Error
      */
     function init() {
-        var deferred = Q.defer();
-
-        if ( supported ) {
-            deferred.resolve( true );
-        } else {
-            deferred.reject( new Error( 'FileReader not supported.' ) );
-        }
-
-        return deferred.promise;
+        return new Promise( function( resolve, reject ) {
+            if ( supported ) {
+                resolve( true );
+            } else {
+                reject( new Error( 'FileReader not supported.' ) );
+            }
+        } );
     }
 
     /**
@@ -54,49 +52,49 @@ define( [ "q", "store", "settings", "jquery" ], function( Q, store, settings, $ 
      */
     function getFileUrl( subject ) {
         var error,
-            deferred = Q.defer(),
             reader = new FileReader();
 
-        reader.onload = function( e ) {
-            deferred.resolve( e.target.result );
-        };
-        reader.onerror = function( e ) {
-            deferred.reject( error );
-        };
+        return new Promise( function( resolve, reject ) {
+            reader.onload = function( e ) {
+                resolve( e.target.result );
+            };
+            reader.onerror = function( e ) {
+                reject( error );
+            };
 
-        if ( !subject ) {
-            deferred.resolve( null );
-        } else if ( typeof subject === 'string' ) {
-            if ( !store.isAvailable() ) {
-                // e.g. in an online-only edit view
-                deferred.reject( new Error( 'store not available' ) );
-            } else {
-                // obtain file from storage
-                store.record.file.get( _getInstanceId(), subject )
-                    .then( function( file ) {
-                        console.debug( 'file', file );
-                        if ( file.item ) {
-                            if ( _isTooLarge( file.item ) ) {
-                                deferred.reject( _getMaxSizeError() );
+            if ( !subject ) {
+                resolve( null );
+            } else if ( typeof subject === 'string' ) {
+                if ( !store.isAvailable() ) {
+                    // e.g. in an online-only edit view
+                    reject( new Error( 'store not available' ) );
+                } else {
+                    // obtain file from storage
+                    store.record.file.get( _getInstanceId(), subject )
+                        .then( function( file ) {
+                            console.debug( 'file', file );
+                            if ( file.item ) {
+                                if ( _isTooLarge( file.item ) ) {
+                                    reject( _getMaxSizeError() );
+                                } else {
+                                    reader.readAsDataURL( file.item );
+                                }
                             } else {
-                                reader.readAsDataURL( file.item );
+                                reject( new Error( 'File Retrieval Error' ) );
                             }
-                        } else {
-                            deferred.reject( new Error( 'File Retrieval Error' ) );
-                        }
-                    } )
-                    .catch( deferred.reject );
-            }
-        } else if ( typeof subject === 'object' ) {
-            if ( _isTooLarge( subject ) ) {
-                deferred.reject( _getMaxSizeError() );
+                        } )
+                        .catch( reject );
+                }
+            } else if ( typeof subject === 'object' ) {
+                if ( _isTooLarge( subject ) ) {
+                    reject( _getMaxSizeError() );
+                } else {
+                    reader.readAsDataURL( subject );
+                }
             } else {
-                reader.readAsDataURL( subject );
+                reject( new Error( 'Unknown error occurred' ) );
             }
-        } else {
-            deferred.reject( new Error( 'Unknown error occurred' ) );
-        }
-        return deferred.promise;
+        } );
     }
 
     /**
