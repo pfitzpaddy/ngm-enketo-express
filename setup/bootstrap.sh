@@ -6,7 +6,6 @@ set -e
 # If the repo directory hasn't been externally specified, default to `/vagrant`.
 ENKETO_EXPRESS_REPO_DIR=${ENKETO_EXPRESS_REPO_DIR:-"/vagrant"}
 
-ENKETO_EXPRESS_UPDATE_REPO=${ENKETO_EXPRESS_UPDATE_REPO:-"true"}
 ENKETO_EXPRESS_USE_NODE_ENV=${ENKETO_EXPRESS_USE_NODE_ENV:-"false"}
 
 # install redis
@@ -14,14 +13,6 @@ echo 'installing redis...'
 add-apt-repository -y ppa:rwky/redis
 apt-get update
 apt-get install -y redis-server
-
-# update repo
-echo 'updating enketo app to latest version'
-apt-get install -y git
-cd $ENKETO_EXPRESS_REPO_DIR
-# The next line should be commented out during development or any case where the repository was cloned via the ssh URL (i.e. git@github.com:kobotoolbox/enketo-express.git) as opposed to the HTTPS.
-[ $ENKETO_EXPRESS_UPDATE_REPO = "true" ] && git pull
-git submodule update --init --recursive
 
 # further redis setup with persistence, security, logging, multiple instances, priming 
 echo 'copying enketo redis conf...'
