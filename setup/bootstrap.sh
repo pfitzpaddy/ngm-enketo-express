@@ -43,7 +43,7 @@ echo 'installing libxml2 and libxslt'
 apt-get install -y libxml2-dev libxslt1-dev
 
 # install dependencies, development tools, node, grunt
-apt-get install -y python-software-properties python g++ make
+apt-get install -y python-software-properties python g++ make git
 cd $ENKETO_EXPRESS_REPO_DIR
 if [ $ENKETO_EXPRESS_USE_NODE_ENV = "true" ]; then
     apt-get install python-pip
@@ -60,6 +60,7 @@ npm -g install npm@next
 if [ -d "$ENKETO_EXPRESS_REPO_DIR/node_modules" ]; then
 	rm -R $ENKETO_EXPRESS_REPO_DIR/node_modules
 fi
+npm cache clean
 npm install
 bower install --allow-root
 
