@@ -24,7 +24,8 @@ block content
       include component/_form-header
       | !{form}
       unless form
-        div.form__loader
+        .form__loader
+          include ../../../public/images/fading-loader-original.svg
       include component/_form-footer
   if manifest
     include component/_side-slider

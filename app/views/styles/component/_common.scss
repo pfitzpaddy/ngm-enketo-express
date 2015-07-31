@@ -34,10 +34,18 @@ progress {
 }
 
 .form__loader {
-    @include loader-image(250px);
+    height: 250px;
+    width: 250px;
     margin: 170px auto 0 auto;
     &.fail {
         background: none;
+    }
+}
+
+// svg loader image
+.fading-loader {
+    g {
+        fill: $brand-primary-color;
     }
 }
 
