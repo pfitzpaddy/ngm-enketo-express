@@ -143,17 +143,6 @@ module.exports = function( grunt ) {
             "webform": getWebformCompileOptions(),
             "webform-edit": getWebformCompileOptions( 'edit' )
         },
-        symlink: {
-            core: {
-                files: [ {
-                    overwrite: false,
-                    expand: true,
-                    cwd: 'app/lib/',
-                    src: [ 'enketo-core' ],
-                    dest: 'public/lib/'
-                } ]
-            }
-        },
         env: {
             test: {
                 NODE_ENV: 'test'
