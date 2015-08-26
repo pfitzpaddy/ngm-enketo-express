@@ -1,5 +1,6 @@
-define( [ 'q' ], function( Q ) {
-    "use strict";
+"use strict";
+var Q = require('q');
+
     // TODO: test in old version of Safari and IE
     //if ( typeof window.Promise === 'undefined' ) {
     // don't use native promises at all until they are fully supported across browsers
@@ -7,5 +8,3 @@ define( [ 'q' ], function( Q ) {
     //window.Promise = Q.Promise;
     //}
     window.Promise = Q.Promise;
-    return true;
-} );

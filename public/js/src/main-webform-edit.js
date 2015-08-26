@@ -1,11 +1,18 @@
-require( [ 'require-config' ], function( rc ) {
-    "use strict";
-    require( [ 'gui', 'controller-webform', 'settings', 'connection', 'translator', 'utils', 'jquery', 'promise-by-Q' ],
-        function( gui, controller, settings, connection, t, utils, $ ) {
-            var $loader = $( '.form__loader' ),
-                $form = $( 'form.or' ),
-                $buttons = $( '.form-header__button--print, button#submit-form' ),
-                survey = {
+'use strict';
+
+var gui = require('./module/gui');
+var controller = require('./module/controller-webform');
+var settings = require('./module/settings');
+var connection = require('./module/connection');
+var t = require('./module/translator');
+var utils = require('./module/utils');
+var $ = require('jquery');
+require('./module/promise-by-Q');
+
+            var $loader = $( '.form__loader' );
+            var $form = $( 'form.or' );
+            var $buttons = $( '.form-header__button--print, button#submit-form' );
+            var survey = {
                     enketoId: settings.enketoId,
                     serverUrl: settings.serverUrl,
                     xformId: settings.xformId,
@@ -57,5 +64,3 @@ require( [ 'require-config' ], function( rc ) {
                     } );
                 } );
             }
-        } );
-} );

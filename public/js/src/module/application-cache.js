@@ -18,8 +18,9 @@
  * Deals with storing the app in the applicationCache.
  */
 
-define( [ 'jquery' ], function( $ ) {
-    "use strict";
+'use strict';
+
+var $ = require('jquery');
 
     function init() {
         if ( window.applicationCache ) {
@@ -68,8 +69,6 @@ define( [ 'jquery' ], function( $ ) {
         $( document ).trigger( 'offlinelaunchincapable' );
     }
 
-    return {
+    module.exports = {
         init: init
     };
-
-} );

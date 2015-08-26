@@ -18,11 +18,22 @@
  * Deals with the main GUI elements (but not the survey form)
  */
 
-define( [ 'enketo-js/support', 'q', 'settings', 'print', 'translator', 'vex.dialog.custom', 'jquery', 'plugin', ], function( support, Q, settings, printForm, t, dialog, $ ) {
-    "use strict";
+'use strict';
 
-    var nav, pages, updateStatus, feedbackBar,
-        supportLink = '<a href="mailto:' + settings[ 'supportEmail' ] + '">' + settings[ 'supportEmail' ] + '</a>';
+var support = require('enketo-core/src/js/support');
+var Q = require('q');
+var settings = require('./settings');
+var printForm = require('enketo-core/src/js/print');
+var t = require('./translator');
+var dialog = require('./vex.dialog.custom');
+var $ = require('jquery');
+require('./plugin');
+
+    var nav;
+    var pages;
+    var updateStatus;
+    var feedbackBar;
+    var supportLink = '<a href="mailto:' + settings[ 'supportEmail' ] + '">' + settings[ 'supportEmail' ] + '</a>';
 
     /**
      * Initializes a GUI object.
@@ -440,7 +451,7 @@ define( [ 'enketo-js/support', 'q', 'settings', 'print', 'translator', 'vex.dial
         init();
     } );
 
-    return {
+    module.exports = {
         alert: alert,
         confirm: confirm,
         prompt: prompt,
@@ -453,4 +464,3 @@ define( [ 'enketo-js/support', 'q', 'settings', 'print', 'translator', 'vex.dial
         alertCacheUnsupported: alertCacheUnsupported,
         getErrorResponseMsg: getErrorResponseMsg
     };
-} );

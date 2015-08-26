@@ -17,13 +17,23 @@
 /**
  * Deals with browser storage
  */
+'use strict';
 
-define( [ 'store', 'connection', 'gui', 'q', 'settings', 'translator' ], function( store, connection, gui, Q, settings, t ) {
-    "use strict";
+var store = require('./store');
+var connection = require('./connection');
+var gui = require('./gui');
+var Q = require('q');
+var settings = require('./settings');
+var t = require('./translator');
+var $ = require('jquery');
 
-    var $exportButton, $uploadButton, $recordList, $queueNumber, uploadProgress,
-        autoSaveKey = '__autoSave_' + settings.enketoId,
-        uploadOngoing = false;
+    var $exportButton;
+    var $uploadButton;
+    var $recordList;
+    var $queueNumber;
+    var uploadProgress;
+    var autoSaveKey = '__autoSave_' + settings.enketoId;
+    var uploadOngoing = false;
 
     function init() {
         _setUploadIntervals();
@@ -365,7 +375,7 @@ define( [ 'store', 'connection', 'gui', 'q', 'settings', 'translator' ], functio
             } );
     }
 
-    return {
+    module.exports = {
         init: init,
         get: get,
         set: set,
@@ -381,4 +391,4 @@ define( [ 'store', 'connection', 'gui', 'q', 'settings', 'translator' ], functio
         uploadQueue: uploadQueue
     };
 
-} );
+

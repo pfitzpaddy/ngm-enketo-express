@@ -1,10 +1,21 @@
-require( [ 'require-config' ], function( rc ) {
-    "use strict";
-    require( [ 'gui', 'controller-webform', 'settings', 'connection', 'enketo-js/FormModel', 'translator', 'store', 'utils', 'form-cache', 'application-cache', 'jquery', 'promise-by-Q' ],
-        function( gui, controller, settings, connection, FormModel, t, store, utils, formCache, applicationCache, $ ) {
-            var $loader = $( '.form__loader' ),
-                $buttons = $( '.form-header__button--print, button#validate-form, button#submit-form' ),
-                survey = {
+'use strict';
+
+var gui = require('./module/gui');
+var controller = require('./module/controller-webform');
+var settings = require('./module/settings');
+var connection = require('./module/connection');
+var FormModel = require('enketo-core/src/js/FormModel');
+var t = require('./module/translator');
+var store = require('./module/store');
+var utils = require('./module/utils');
+var formCache = require('./module/form-cache');
+var appCache = require('./module/application-cache');
+var $ = require('jquery');
+require('./module/promise-by-Q');
+
+            var $loader = $( '.form__loader' );
+            var    $buttons = $( '.form-header__button--print, button#validate-form, button#submit-form' );
+            var    survey = {
                     enketoId: settings.enketoId,
                     serverUrl: settings.serverUrl,
                     xformId: settings.xformId,
@@ -13,9 +24,6 @@ require( [ 'require-config' ], function( rc ) {
                 };
 
             _setEmergencyHandlers();
-
-            // workaround for issue with compiled JS in IE11. For some reason promise-by-Q.js is not loaded before db.js....
-            if ( !window.Promise ) window.Promise = Q.Promise;
 
             if ( settings.offline ) {
                 console.debug( 'in offline mode' );
@@ -27,8 +35,8 @@ require( [ 'require-config' ], function( rc ) {
                     .then( function( s ) {
                         settings.maxSize = s.maxSize;
                         _setFormCacheEventHandlers();
-                        _setApplicationCacheEventHandlers();
-                        applicationCache.init();
+                        _setAppCacheEventHandlers();
+                        appCache.init();
                     } )
                     .catch( _showErrorOrAuthenticate );
             } else {
@@ -54,7 +62,7 @@ require( [ 'require-config' ], function( rc ) {
                 }
             }
 
-            function _setApplicationCacheEventHandlers() {
+            function _setAppCacheEventHandlers() {
                 $( document )
                     .on( 'offlinelaunchcapable', function() {
                         console.log( 'This form is fully offline-capable!' );
@@ -140,7 +148,7 @@ require( [ 'require-config' ], function( rc ) {
                     if ( formParts && formParts.form && formParts.model ) {
                         $loader.replaceWith( formParts.form );
                         $form = $( 'form.or:eq(0)' );
-
+                        console.debug('going to instantiate form');
                         $( document ).ready( function() {
                             // TODO pass $form as first parameter?
                             // controller.init is asynchronous
@@ -158,7 +166,7 @@ require( [ 'require-config' ], function( rc ) {
                         } );
                     } else if ( formParts ) {
                         error = new Error( 'Form not complete.' );
-                        errors.status = 400;
+                        error.status = 400;
                         reject( error );
                     } else {
                         error = new Error( 'Form not found' );
@@ -167,5 +175,3 @@ require( [ 'require-config' ], function( rc ) {
                     }
                 } );
             }
-        } );
-} );

@@ -1,5 +1,7 @@
-define( [ 'jquery' ], function( $ ) {
-    "use strict";
+'use strict';
+
+var $ = require('jquery');
+
     // plugin to select the first word(s) of a string and capitalize it
     $.fn.capitalizeStart = function( numWords ) {
         if ( !numWords ) {
@@ -40,5 +42,3 @@ define( [ 'jquery' ], function( $ ) {
             }
         } );
     };
-
-} );

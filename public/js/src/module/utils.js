@@ -1,5 +1,7 @@
-define( [ 'papaparse', 'q' ], function( Papa, Q ) {
-    "use strict";
+'use strict';
+
+var Papa = require('papaparse');
+var Q = require('q');
 
     //var hasArrayBufferView = new Blob( [ new Uint8Array( 100 ) ] ).size == 100;
 
@@ -125,11 +127,10 @@ define( [ 'papaparse', 'q' ], function( Papa, Q ) {
         }
     }
 
-    return {
+    module.exports = {
         blobToDataUri: blobToDataUri,
         dataUriToBlob: dataUriToBlob,
         getThemeFromFormStr: getThemeFromFormStr,
         getTitleFromFormStr: getTitleFromFormStr,
         csvToXml: csvToXml
     };
-} );

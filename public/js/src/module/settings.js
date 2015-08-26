@@ -14,8 +14,10 @@
  * limitations under the License.
  */
 
-define( [ 'text!enketo-config' ], function( config ) {
-    "use strict";
+'use strict';
+
+var config = require('enketo-config');
+
     var queryParams = _getAllQueryParams(),
         settings = {},
         settingsMap = [ {
@@ -104,6 +106,7 @@ define( [ 'text!enketo-config' ], function( config ) {
     settings.enketoId = _getEnketoId( '\/' + settings.enketoIdPrefix, window.location.pathname ) || _getEnketoId( '#', window.location.hash );
 
     // determine whether view is offline-capable
+    // TODO: check for manifest attribute on html element instead?
     settings.offline = !( new RegExp( '\/' + settings.enketoIdPrefix ).test( window.location.pathname ) ) && !!window.location.hash;
 
     function _getEnketoId( prefix, haystack ) {
@@ -128,5 +131,4 @@ define( [ 'text!enketo-config' ], function( config ) {
         return params;
     }
 
-    return settings;
-} );
+    module.exports = settings;

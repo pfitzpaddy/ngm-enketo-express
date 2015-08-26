@@ -1,7 +1,7 @@
 "use strict";
 
 module.exports = function( grunt ) {
-    var JS_INCLUDE = [ "**/*.js", "!**/enketo-core/**", "!node_modules/**", "!test/**/*.spec.js", "!**/*.min.js", "!public/lib/**/*.js", "!app/lib/martijnr-foundation/**/*.js" ];
+    var JS_INCLUDE = [ "**/*.js", "!node_modules/**", "!test/**/*.spec.js", "!**/*.min.js", "!public/lib/**/*.js" ];
     // show elapsed time at the end
     require( 'time-grunt' )( grunt );
     // load all grunt tasks
@@ -60,6 +60,14 @@ module.exports = function( grunt ) {
             language: {
                 files: [ 'app/views/**/*.jade', 'app/controllers/**/*.js', 'app/models/**/*.js', 'public/js/src/**/*.js' ],
                 tasks: [ 'shell:translation' ]
+            },
+            js: {
+                files: [ 'node_modules/enketo-core/**/*.js', 'public/js/**/*.js' ],
+                tasks: [ 'browserify' ],
+                options: {
+                    spawn: true,
+                    livereload: true
+                }
             }
         },
         shell: {
@@ -119,29 +127,24 @@ module.exports = function( grunt ) {
                 browsers: [ 'Chrome', 'ChromeCanary', 'Firefox', 'Opera', /*'Safari'*/ ]
             }
         },
-        requirejs: {
-            options: {
-                //generateSourceMaps: true,
-                preserveLicenseComments: false,
-                baseUrl: "public/js/src/module",
-                mainConfigFile: [ "./public/js/src/require-config.js", "./public/js/src/require-build-config.js" ],
-                findNestedDependencies: true,
-                optimize: "uglify2",
-                done: function( done, output ) {
-                    var duplicates = require( 'rjs-build-analysis' ).duplicates( output );
-
-                    if ( duplicates.length > 0 ) {
-                        grunt.log.subhead( 'Duplicates found in requirejs build:' );
-                        grunt.log.warn( duplicates );
-                        done( new Error( 'r.js built duplicate modules, please check the excludes option.' ) );
-                    } else {
-                        grunt.log.writeln( 'Checked for duplicates. All seems OK!' );
-                    }
-                    done();
-                }
+        browserify: {
+            all: {
+                files: {
+                    'public/js/enketo-webform-bundle.js': [ 'public/js/src/main-webform.js' ],
+                    'public/js/enketo-webform-edit-bundle.js': [ 'public/js/src/main-webform-edit.js' ]
+                },
             },
-            "webform": getWebformCompileOptions(),
-            "webform-edit": getWebformCompileOptions( 'edit' )
+            options: {
+                alias: {}
+            },
+        },
+        uglify: {
+            all: {
+                files: {
+                     'public/js/enketo-webform-bundle.min.js': [  'public/js/enketo-webform-bundle.js' ],
+                     'public/js/enketo-webform-edit-bundle.min.js': [  'public/js/enketo-webform-edit-bundle.js' ],
+                },
+            },
         },
         env: {
             test: {
@@ -149,22 +152,6 @@ module.exports = function( grunt ) {
             }
         }
     } );
-
-    function getWebformCompileOptions( type ) {
-        // determine all widget js resources
-        var widgetResources = [].concat( require( './app/models/config-model' ).server.widgets );
-        widgetResources.forEach( function( widget, index, arr ) {
-            arr.push( 'text!' + widget.substr( 0, widget.lastIndexOf( '/' ) + 1 ) + 'config.json' );
-        } );
-        type = ( type ) ? '-' + type : '';
-        return {
-            options: {
-                name: "../main-webform" + type,
-                out: "public/js/webform" + type + "-combined.min.js",
-                include: [ '../../../../public/lib/bower-components/requirejs/require' ].concat( widgetResources )
-            }
-        };
-    }
 
     grunt.registerTask( 'client-config-file', 'Temporary client-config file', function( task ) {
         var clientConfigPath = "public/temp-client-config.json";
@@ -178,8 +165,8 @@ module.exports = function( grunt ) {
         }
     } );
 
-    grunt.registerTask( 'default', [ 'symlink', 'compile' ] );
-    grunt.registerTask( 'compile', [ 'sass', 'client-config-file:create', 'requirejs', 'client-config-file:remove' ] );
+    grunt.registerTask( 'default', [ 'sass', 'compile', 'uglify' ] );
+    grunt.registerTask( 'compile', [ 'client-config-file:create', 'browserify', 'client-config-file:remove' ] );
     grunt.registerTask( 'test', [ 'env:test', 'symlink', 'compile', 'mochaTest:all', 'karma:headless', 'jsbeautifier:test', 'jshint' ] );
     grunt.registerTask( 'develop', [ 'concurrent:develop' ] );
 };

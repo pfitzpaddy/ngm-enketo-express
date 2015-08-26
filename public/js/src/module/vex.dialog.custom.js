@@ -1,7 +1,8 @@
+'use strict';
 // last updated with mothership at https://github.com/HubSpot/vex v2.3.0
+var $ = require('jquery');
+var vex = require('vex-js');
 
-( function() {
-    "use strict";
     var vexDialogFactory;
 
     vexDialogFactory = function( $, vex ) {
@@ -164,12 +165,6 @@
         return dialog;
     };
 
-    if ( typeof define === 'function' && define.amd ) {
-        define( [ 'jquery', 'vex' ], vexDialogFactory );
-    } else if ( typeof exports === 'object' ) {
-        module.exports = vexDialogFactory( require( 'jquery' ), require( './vex.js' ) );
-    } else {
-        window.vex.dialog = vexDialogFactory( window.jQuery, window.vex );
-    }
 
-} ).call( this );
+        module.exports = vexDialogFactory( $, vex );
+

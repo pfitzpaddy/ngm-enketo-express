@@ -18,11 +18,21 @@
  * Deals with browser storage
  */
 
-define( [ 'db', 'q', 'utils', 'translator' ], function( db, Q, utils, t ) {
-    "use strict";
-    var server, blobEncoding, propertyStore, recordStore, surveyStore, dump,
-        available = false,
-        databaseName = 'enketo';
+'use strict';
+
+var db = require('db.js');
+var Q = require('q');
+var utils = require('./utils');
+var t = require('./utils');
+
+    var server;
+    var blobEncoding;
+    var propertyStore;
+    var recordStore;
+    var surveyStore;
+    var dump;
+    var available = false;
+    var databaseName = 'enketo';
 
     function init() {
         return db.open( {
@@ -822,7 +832,7 @@ define( [ 'db', 'q', 'utils', 'translator' ], function( db, Q, utils, t ) {
         },
     };
 
-    return {
+    module.exports = {
         init: init,
         isAvailable: isAvailable,
         property: propertyStore,
@@ -831,5 +841,3 @@ define( [ 'db', 'q', 'utils', 'translator' ], function( db, Q, utils, t ) {
         flush: flush,
         dump: dump
     };
-
-} );

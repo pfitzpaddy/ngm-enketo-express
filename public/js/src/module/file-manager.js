@@ -7,11 +7,15 @@
  * types.
  */
 
-define( [ "q", "store", "settings", "jquery" ], function( Q, store, settings, $ ) {
-    "use strict";
+'use strict';
 
-    var supported = typeof FileReader !== 'undefined',
-        notSupportedAdvisoryMsg = '';
+var Q = require('q');
+var store = require('./store');
+var settings = require('./settings');
+var $ = require('jquery');
+
+    var supported = typeof FileReader !== 'undefined';
+    var notSupportedAdvisoryMsg = '';
 
     /**
      * Initialize the file manager .
@@ -157,7 +161,7 @@ define( [ "q", "store", "settings", "jquery" ], function( Q, store, settings, $ 
         return settings.maxSize || 5 * 1024 * 1024;
     }
 
-    return {
+    module.exports = {
         isSupported: isSupported,
         notSupportedAdvisoryMsg: notSupportedAdvisoryMsg,
         isWaitingForPermissions: isWaitingForPermissions,
@@ -165,4 +169,3 @@ define( [ "q", "store", "settings", "jquery" ], function( Q, store, settings, $ 
         getFileUrl: getFileUrl,
         getCurrentFiles: getCurrentFiles
     };
-} );

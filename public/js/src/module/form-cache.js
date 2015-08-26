@@ -18,8 +18,12 @@
  * Deals with browser storage
  */
 
-define( [ 'store', 'connection', 'q' ], function( store, connection, Q ) {
-    "use strict";
+'use strict';
+
+var store = require('./store');
+var connection = require('./connection');
+var Q = require('q');
+var $ = require('jquery');
 
     var hash;
 
@@ -276,7 +280,7 @@ define( [ 'store', 'connection', 'q' ], function( store, connection, Q ) {
             } );
     }
 
-    return {
+    module.exports = {
         init: init,
         get: get,
         updateMaxSubmissionSize: updateMaxSubmissionSize,
@@ -285,4 +289,4 @@ define( [ 'store', 'connection', 'q' ], function( store, connection, Q ) {
         flush: flush
     };
 
-} );
+

@@ -18,19 +18,24 @@
  * Deals with communication to the server (in process of being transformed to using Promises)
  */
 
-define( [ 'settings', 'q', 'translator', 'utils', 'jquery' ], function( settings, Q, t, utils, $ ) {
-    "use strict";
-    var that = this,
-        currentOnlineStatus = null,
-        CONNECTION_URL = '/connection',
+'use strict';
+
+var settings = require('./settings');
+var Q = require('q');
+var t = require('./translator');
+var utils = require('./utils');
+var $ = require('jquery');
+
+    var currentOnlineStatus = null;
+    var CONNECTION_URL = '/connection';
         // location.search is added to pass the lang= parameter, in case this is used to override browser/system locale
-        TRANSFORM_URL = '/transform/xform' + location.search,
-        TRANSFORM_HASH_URL = '/transform/xform/hash',
-        SUBMISSION_URL = ( settings.enketoId ) ? '/submission/' + settings.enketoIdPrefix + settings.enketoId + location.search : null,
-        INSTANCE_URL = ( settings.enketoId ) ? '/submission/' + settings.enketoIdPrefix + settings.enketoId : null,
-        MAX_SIZE_URL = ( settings.enketoId ) ? '/submission/max-size/' + settings.enketoIdPrefix + settings.enketoId : null,
-        DEFAULT_MAX_SIZE = 5 * 1024 * 1024,
-        ABSOLUTE_MAX_SIZE = 100 * 1024 * 1024;
+    var TRANSFORM_URL = '/transform/xform' + location.search;
+    var TRANSFORM_HASH_URL = '/transform/xform/hash';
+    var SUBMISSION_URL = ( settings.enketoId ) ? '/submission/' + settings.enketoIdPrefix + settings.enketoId + location.search : null;
+    var INSTANCE_URL = ( settings.enketoId ) ? '/submission/' + settings.enketoIdPrefix + settings.enketoId : null;
+    var MAX_SIZE_URL = ( settings.enketoId ) ? '/submission/max-size/' + settings.enketoIdPrefix + settings.enketoId : null;
+    var DEFAULT_MAX_SIZE = 5 * 1024 * 1024;
+    var ABSOLUTE_MAX_SIZE = 100 * 1024 * 1024;
 
     /**
      * Initialize the connection object
@@ -506,7 +511,7 @@ define( [ 'settings', 'q', 'translator', 'utils', 'jquery' ], function( settings
         return deferred.promise;
     }
 
-    return {
+    module.exports = {
         init: init,
         uploadRecord: uploadRecord,
         getMaximumSubmissionSize: getMaximumSubmissionSize,
@@ -517,4 +522,3 @@ define( [ 'settings', 'q', 'translator', 'utils', 'jquery' ], function( settings
         getExistingInstance: getExistingInstance,
         getManifestVersion: getManifestVersion
     };
-} );

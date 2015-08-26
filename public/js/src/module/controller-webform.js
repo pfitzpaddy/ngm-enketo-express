@@ -18,10 +18,21 @@
  * Deals with the main high level survey controls: saving, submitting etc.
  */
 
-define( [ 'gui', 'connection', 'settings', 'enketo-js/Form', 'file-manager', 'translator', 'records-queue', 'jquery' ],
-    function( gui, connection, settings, Form, fileManager, t, records, $ ) {
-        "use strict";
-        var form, formSelector, formData, $formprogress;
+'use strict';
+
+var gui = require('./gui');
+var connection = require('./connection');
+var settings = require('./settings');
+var Form = require('enketo-core');
+var fileManager = require('./file-manager');
+var t = require('./translator');
+var records = require('./records-queue');
+var $ = require('jquery');
+
+        var form;
+        var formSelector;
+        var formData;
+        var $formprogress;
 
         function init( selector, data ) {
             var advice,
@@ -521,7 +532,6 @@ define( [ 'gui', 'connection', 'settings', 'enketo-js/Form', 'file-manager', 'tr
             }
         }
 
-        return {
+        module.exports = {
             init: init
         };
-    } );

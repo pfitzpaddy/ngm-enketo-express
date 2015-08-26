@@ -14,8 +14,12 @@
  * limitations under the License.
  */
 
-define( [ 'settings', 'i18next', 'jquery' ], function( settings, i18next, $ ) {
-    "use strict";
+'use strict';
+
+var settings = require('./settings');
+var i18next = require('i18next-client');
+var $ = require('jquery');
+
     var options;
 
     // The postProcessor assumes that array values with line breaks should be divided into HTML paragraphs.
@@ -54,8 +58,8 @@ define( [ 'settings', 'i18next', 'jquery' ], function( settings, i18next, $ ) {
 
     i18next.init( options );
 
-    return i18next.t;
-} );
+    module.exports = i18next.t;
+
 
 /**
  * add keys from XSL stylesheets manually
