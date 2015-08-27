@@ -16,8 +16,7 @@ module.exports = function( config ) {
 
         // list of files / patterns to load in the browser
         files: [
-            'test/client/**/*.spec.js',
-            {
+            'test/client/**/*.spec.js', {
                 pattern: 'public/js/src/**/*.js',
                 included: false
             },
@@ -31,7 +30,7 @@ module.exports = function( config ) {
         // preprocess matching files before serving them to the browser
         // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
         preprocessors: {
-            'test/client/**/*.spec.js' : [ 'browserify' ],
+            'test/client/**/*.spec.js': [ 'browserify' ],
         },
 
 
