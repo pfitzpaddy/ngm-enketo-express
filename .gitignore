@@ -11,4 +11,4 @@ config/config.json
 .rebooted
 .vagrant
 .scratchpad
-
+.nodemon-*

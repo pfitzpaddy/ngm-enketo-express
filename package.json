@@ -50,8 +50,6 @@
     "grunt-browserify": "^4.0.0",
     "grunt-concurrent": "2.x.x",
     "grunt-contrib-jshint": "0.11.x",
-    "grunt-contrib-requirejs": "0.4.x",
-    "grunt-contrib-symlink": "0.3.x",
     "grunt-contrib-uglify": "0.9.x",
     "grunt-contrib-watch": "0.6.x",
     "grunt-env": "0.4.x",
@@ -75,8 +73,6 @@
     "load-grunt-tasks": "3.x.x",
     "mocha": "2.2.x",
     "phantomjs": "1.9.x",
-    "requirejs": "2.1.x",
-    "rjs-build-analysis": "0.0.x",
     "supertest": "1.0.x",
     "time-grunt": "1.x.x"
   },

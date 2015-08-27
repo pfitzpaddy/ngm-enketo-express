@@ -2,9 +2,8 @@
 
 module.exports = function( grunt ) {
     var JS_INCLUDE = [ "**/*.js", "!node_modules/**", "!test/**/*.spec.js", "!**/*.min.js", "!public/lib/**/*.js" ];
-    // show elapsed time at the end
+
     require( 'time-grunt' )( grunt );
-    // load all grunt tasks
     require( 'load-grunt-tasks' )( grunt );
 
     grunt.initConfig( {
@@ -50,7 +49,7 @@ module.exports = function( grunt ) {
         },
         watch: {
             sass: {
-                files: [ '.rebooted', 'config/config.json', 'app/views/styles/**/*.scss', 'app/lib/enketo-core/src/**/*.scss', 'app/views/**/*.jade' ],
+                files: [ '.rebooted', 'config/config.json', 'app/views/styles/**/*.scss', 'app/views/**/*.jade' ],
                 tasks: [ 'sass' ],
                 options: {
                     spawn: true,
@@ -62,8 +61,8 @@ module.exports = function( grunt ) {
                 tasks: [ 'shell:translation' ]
             },
             js: {
-                files: [ 'node_modules/enketo-core/**/*.js', 'public/js/**/*.js' ],
-                tasks: [ 'browserify' ],
+                files: JS_INCLUDE.concat(['!public/js/*-bundle.js', '!public/js/*-bundle.min.js']),
+                tasks: [ 'compile' ],
                 options: {
                     spawn: true,
                     livereload: true
@@ -98,7 +97,7 @@ module.exports = function( grunt ) {
             options: {
                 jshintrc: ".jshintrc"
             },
-            all: JS_INCLUDE
+            all: JS_INCLUDE.concat(['!public/js/*-bundle.js', '!public/js/*-bundle.min.js'])
         },
         // test server JS
         mochaTest: {
@@ -124,11 +123,22 @@ module.exports = function( grunt ) {
             },
             browsers: {
                 configFile: 'test/client/config/browser-karma.conf.js',
-                browsers: [ 'Chrome', 'ChromeCanary', 'Firefox', 'Opera', /*'Safari'*/ ]
+                browsers: [ 'Chrome', 'ChromeCanary', 'Firefox','Opera'/*,'Safari'*/ ]
             }
         },
         browserify: {
-            all: {
+             development: {
+                files: {
+                    'public/js/enketo-webform-dev-bundle.js': [ 'public/js/src/main-webform.js' ],
+                    'public/js/enketo-webform-edit-dev-bundle.js': [ 'public/js/src/main-webform-edit.js' ]
+                },
+                options: {
+                    browserifyOptions: {
+                        debug: true,
+                    }
+                },
+            },
+            production: {
                 files: {
                     'public/js/enketo-webform-bundle.js': [ 'public/js/src/main-webform.js' ],
                     'public/js/enketo-webform-edit-bundle.js': [ 'public/js/src/main-webform-edit.js' ]
@@ -166,7 +176,9 @@ module.exports = function( grunt ) {
     } );
 
     grunt.registerTask( 'default', [ 'sass', 'compile', 'uglify' ] );
-    grunt.registerTask( 'compile', [ 'client-config-file:create', 'browserify', 'client-config-file:remove' ] );
-    grunt.registerTask( 'test', [ 'env:test', 'symlink', 'compile', 'mochaTest:all', 'karma:headless', 'jsbeautifier:test', 'jshint' ] );
-    grunt.registerTask( 'develop', [ 'concurrent:develop' ] );
+    grunt.registerTask( 'compile', [ 'client-config-file:create', 'browserify:production', 'client-config-file:remove' ] );
+    grunt.registerTask( 'compile-dev', [ 'client-config-file:create', 'browserify:development', 'client-config-file:remove' ] );
+    grunt.registerTask( 'test', [ 'env:test', 'compile', 'mochaTest:all', 'karma:headless', /*'jsbeautifier:test,'*/ 'jshint' ] );
+    grunt.registerTask( 'test-browser', [ 'env:test', 'client-config-file:create', 'karma:browsers', 'client-config-file:remove' ] );
+    grunt.registerTask( 'develop', [ 'compile-dev', 'concurrent:develop' ] );
 };
