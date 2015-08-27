@@ -1,7 +1,7 @@
 "use strict";
 
 module.exports = function( grunt ) {
-    var JS_INCLUDE = [ "**/*.js", "!node_modules/**", "!test/**/*.spec.js", "!**/*.min.js", "!public/lib/**/*.js" ];
+    var JS_INCLUDE = [ "**/*.js", "!node_modules/**", "!test/**/*.spec.js", "!public/lib/**/*.js", '!public/js/*-bundle.js', '!public/js/*-bundle.min.js' ];
 
     require( 'time-grunt' )( grunt );
     require( 'load-grunt-tasks' )( grunt );
@@ -61,7 +61,7 @@ module.exports = function( grunt ) {
                 tasks: [ 'shell:translation' ]
             },
             js: {
-                files: JS_INCLUDE.concat(['!public/js/*-bundle.js', '!public/js/*-bundle.min.js']),
+                files: JS_INCLUDE,
                 tasks: [ 'compile-dev' ],
                 options: {
                     spawn: true,
@@ -97,7 +97,7 @@ module.exports = function( grunt ) {
             options: {
                 jshintrc: ".jshintrc"
             },
-            all: JS_INCLUDE.concat(['!public/js/*-bundle.js', '!public/js/*-bundle.min.js'])
+            all: JS_INCLUDE,
         },
         // test server JS
         mochaTest: {
@@ -123,11 +123,11 @@ module.exports = function( grunt ) {
             },
             browsers: {
                 configFile: 'test/client/config/browser-karma.conf.js',
-                browsers: [ 'Chrome', 'ChromeCanary', 'Firefox','Opera'/*,'Safari'*/ ]
+                browsers: [ 'Chrome', 'ChromeCanary', 'Firefox', 'Opera' /*,'Safari'*/ ]
             }
         },
         browserify: {
-             development: {
+            development: {
                 files: {
                     'public/js/enketo-webform-dev-bundle.js': [ 'public/js/src/main-webform.js' ],
                     'public/js/enketo-webform-edit-dev-bundle.js': [ 'public/js/src/main-webform-edit.js' ]
@@ -151,8 +151,8 @@ module.exports = function( grunt ) {
         uglify: {
             all: {
                 files: {
-                     'public/js/enketo-webform-bundle.min.js': [  'public/js/enketo-webform-bundle.js' ],
-                     'public/js/enketo-webform-edit-bundle.min.js': [  'public/js/enketo-webform-edit-bundle.js' ],
+                    'public/js/enketo-webform-bundle.min.js': [ 'public/js/enketo-webform-bundle.js' ],
+                    'public/js/enketo-webform-edit-bundle.min.js': [ 'public/js/enketo-webform-edit-bundle.js' ],
                 },
             },
         },
@@ -178,7 +178,7 @@ module.exports = function( grunt ) {
     grunt.registerTask( 'default', [ 'sass', 'compile', 'uglify' ] );
     grunt.registerTask( 'compile', [ 'client-config-file:create', 'browserify:production', 'client-config-file:remove' ] );
     grunt.registerTask( 'compile-dev', [ 'client-config-file:create', 'browserify:development', 'client-config-file:remove' ] );
-    grunt.registerTask( 'test', [ 'env:test', 'compile', 'mochaTest:all', 'karma:headless', 'jsbeautifier:test','jshint' ] );
+    grunt.registerTask( 'test', [ 'env:test', 'compile', 'mochaTest:all', 'karma:headless', 'jsbeautifier:test', 'jshint' ] );
     grunt.registerTask( 'test-browser', [ 'env:test', 'client-config-file:create', 'karma:browsers', 'client-config-file:remove' ] );
     grunt.registerTask( 'develop', [ 'compile-dev', 'concurrent:develop' ] );
 };
