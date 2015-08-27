@@ -62,7 +62,7 @@ module.exports = function( grunt ) {
             },
             js: {
                 files: JS_INCLUDE.concat(['!public/js/*-bundle.js', '!public/js/*-bundle.min.js']),
-                tasks: [ 'compile' ],
+                tasks: [ 'compile-dev' ],
                 options: {
                     spawn: true,
                     livereload: true
@@ -178,7 +178,7 @@ module.exports = function( grunt ) {
     grunt.registerTask( 'default', [ 'sass', 'compile', 'uglify' ] );
     grunt.registerTask( 'compile', [ 'client-config-file:create', 'browserify:production', 'client-config-file:remove' ] );
     grunt.registerTask( 'compile-dev', [ 'client-config-file:create', 'browserify:development', 'client-config-file:remove' ] );
-    grunt.registerTask( 'test', [ 'env:test', 'compile', 'mochaTest:all', 'karma:headless', /*'jsbeautifier:test,'*/ 'jshint' ] );
+    grunt.registerTask( 'test', [ 'env:test', 'compile', 'mochaTest:all', 'karma:headless', 'jsbeautifier:test','jshint' ] );
     grunt.registerTask( 'test-browser', [ 'env:test', 'client-config-file:create', 'karma:browsers', 'client-config-file:remove' ] );
     grunt.registerTask( 'develop', [ 'compile-dev', 'concurrent:develop' ] );
 };
