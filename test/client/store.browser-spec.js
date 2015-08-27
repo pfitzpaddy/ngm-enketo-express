@@ -1,5 +1,5 @@
 /* global define, describe, xdescribe, require, it, xit, before, after, beforeEach, afterEach, expect, Blob */
-"use strict";
+'use strict';
 
 /**
  * ***********************************************************************************************************
@@ -13,7 +13,7 @@
 
 // TODO: when chai-as-promised adapter is working, convert these tests using .eventually.
 
-define( [ 'store' ], function( store ) {
+var store = require('../../public/js/src/module/store');
 
     describe( 'Client Storage', function() {
         var resourceA, resourceB, fileA, fileB, recordA, recordB, surveyA;
@@ -899,5 +899,3 @@ define( [ 'store' ], function( store ) {
         } );
 
     } );
-
-} );

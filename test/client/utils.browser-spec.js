@@ -1,7 +1,7 @@
 /* global define, describe, require, it, before, after, beforeEach, afterEach, expect, Blob */
-"use strict";
+'use strict';
 
-define( [ 'utils' ], function( utils ) {
+var utils = require('../../public/js/src/module/utils');
 
     describe( 'Client Utilities', function() {
 
@@ -90,4 +90,3 @@ define( [ 'utils' ], function( utils ) {
 
         } );
     } );
-} );

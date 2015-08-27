@@ -1,26 +1,21 @@
 /* global define, describe, xdescribe, require, it, xit, before, after, beforeEach, afterEach, expect, Blob, sinon */
-"use strict";
+'use strict';
 
-var url1 = '/path/to/source.png',
-    form1 = '<form class="or"><img src="' + url1 + '"/></form>',
-    model1 = '<model></model>',
-    hash1 = '12345',
-    enketoId1 = 'TESt';
+var formCache = require('../../public/js/src/module/form-cache');
+var connection = require('../../public/js/src/module/connection');
+var Q = require('q');
+var $ = require('jquery');
 
-// stubs for connection module to avoid loading the real module via require.js in form-cache.js
-define( 'connection', function() {
-    return {
-        getFormParts: function( survey ) {},
-        getMediaFile: function( url ) {}
-    };
-} );
+var url1 = '/path/to/source.png';
+var form1 = '<form class="or"><img src="' + url1 + '"/></form>';
+var model1 = '<model></model>';
+var hash1 = '12345';
+var enketoId1 = 'TESt';
 
-require( [ 'form-cache', 'connection', 'q', 'jquery' ], function( formCache, connection, Q, $ ) {
-
-    describe( 'Client Form Cache', function() {
+   describe( 'Client Form Cache', function() {
         var survey, sandbox, getFormPartsSpy, getFileSpy;
 
-        beforeEach( function( done ) {
+        beforeEach( function( ) {
             survey = {};
             sandbox = sinon.sandbox.create();
             getFormPartsSpy = sandbox.stub( connection, 'getFormParts', function( survey ) {
@@ -43,8 +38,6 @@ require( [ 'form-cache', 'connection', 'q', 'jquery' ], function( formCache, con
                 } );
                 return deferred.promise;
             } );
-            formCache.flush()
-                .then( done, done );
         } );
 
         afterEach( function() {
@@ -146,4 +139,3 @@ require( [ 'form-cache', 'connection', 'q', 'jquery' ], function( formCache, con
         } );
         */
     } );
-} );
