@@ -150,7 +150,6 @@ var appCache = require('./module/application-cache');
                     if ( formParts && formParts.form && formParts.model ) {
                         $loader.replaceWith( formParts.form );
                         $form = $( 'form.or:eq(0)' );
-                        console.debug('going to instantiate form');
                         $( document ).ready( function() {
                             // TODO pass $form as first parameter?
                             // controller.init is asynchronous

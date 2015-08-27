@@ -62,7 +62,7 @@ var utils = require('./module/utils');
                         external: formParts.externalData
                     } ).then( function() {
                         $form.add( $buttons ).removeClass( 'hide' );
-                        $( 'head>title' ).text( utils.getTitleFromFormStr( formStr ) );
+                        $( 'head>title' ).text( utils.getTitleFromFormStr( formParts.form ) );
                     } );
                 } );
             }

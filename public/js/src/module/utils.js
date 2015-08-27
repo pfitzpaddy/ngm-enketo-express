@@ -83,7 +83,7 @@ var Q = require('q');
 
 
     function getTitleFromFormStr( formStr ) {
-        var matches = formStr.match( /<\s?h3 id="form-title">([A-z\s]+)</ );
+        var matches = formStr.match( /<\s?h3 [^>]*id="form-title">([A-z\s]+)</ );
         return ( matches && matches.length > 1 ) ? matches[ 1 ] : null;
     }
 
