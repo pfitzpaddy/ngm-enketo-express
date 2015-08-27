@@ -2,6 +2,11 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+[Unreleased]
+------------------------
+##### Changed
+- switched to CommonJS modules (**WARNING: forks with custom client scripts, tests need to be updated)
+
 [1.14.4] - 2015-08-26 
 ------------------------
 ##### Fixed
