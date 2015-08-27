@@ -1,13 +1,15 @@
 'use strict';
 
+require('./module/jquery-global');
+require('./module/promise-by-Q');
+
+var $ = require('jquery');
 var gui = require('./module/gui');
 var controller = require('./module/controller-webform');
 var settings = require('./module/settings');
 var connection = require('./module/connection');
 var t = require('./module/translator');
 var utils = require('./module/utils');
-var $ = require('jquery');
-require('./module/promise-by-Q');
 
             var $loader = $( '.form__loader' );
             var $form = $( 'form.or' );

@@ -1,5 +1,9 @@
 'use strict';
 
+require('./module/jquery-global');
+require('./module/promise-by-Q');
+
+var $ = require('jquery');
 var gui = require('./module/gui');
 var controller = require('./module/controller-webform');
 var settings = require('./module/settings');
@@ -10,8 +14,6 @@ var store = require('./module/store');
 var utils = require('./module/utils');
 var formCache = require('./module/form-cache');
 var appCache = require('./module/application-cache');
-var $ = require('jquery');
-require('./module/promise-by-Q');
 
             var $loader = $( '.form__loader' );
             var    $buttons = $( '.form-header__button--print, button#validate-form, button#submit-form' );
