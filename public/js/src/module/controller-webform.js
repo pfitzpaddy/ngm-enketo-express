@@ -262,7 +262,7 @@ var $ = require('jquery');
                         _resetForm( true );
                     }
                 } )
-                .fail( function( result ) {
+                .catch( function( result ) {
                     result = result || {};
                     console.error( 'submission failed', result );
                     if ( result.status && result.status === 401 ) {
