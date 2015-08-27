@@ -94,7 +94,6 @@ var config = require('enketo-config');
     }
 
     // add common app configuration constants
-    config = JSON.parse( config );
     for ( var prop in config ) {
         if ( config.hasOwnProperty( prop ) ) {
             settings[ prop ] = config[ prop ];
