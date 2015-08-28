@@ -1,3 +1,7 @@
+/**
+ * This file is used to override the default widgets in enketo-core. 
+ */
+
 'use strict';
 var widgets = [
     require( '../../../../node_modules/enketo-core/src/widget/note/notewidget' ),
