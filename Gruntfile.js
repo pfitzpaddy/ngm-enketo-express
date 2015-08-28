@@ -2,12 +2,12 @@
 
 module.exports = function( grunt ) {
     var JS_INCLUDE = [ "**/*.js", "!node_modules/**", "!test/**/*.spec.js", "!public/lib/**/*.js", '!public/js/*-bundle.js', '!public/js/*-bundle.min.js' ];
+    var pkg = grunt.file.readJSON( 'package.json' );
 
     require( 'time-grunt' )( grunt );
     require( 'load-grunt-tasks' )( grunt );
 
-    grunt.initConfig( {
-        pkg: grunt.file.readJSON( 'package.json' ),
+    grunt.config.init( {
         concurrent: {
             develop: {
                 tasks: [ 'nodemon', 'watch' ],
@@ -123,29 +123,35 @@ module.exports = function( grunt ) {
             },
             browsers: {
                 configFile: 'test/client/config/browser-karma.conf.js',
-                browsers: [ 'Chrome', 'ChromeCanary', 'Firefox', 'Opera' /*,'Safari'*/ ]
+                browsers: [ 'Chrome', 'ChromeCanary', 'Firefox', 'Opera' /*,'Safari'*/ ],
             }
         },
         browserify: {
             development: {
                 files: {
                     'public/js/enketo-webform-dev-bundle.js': [ 'public/js/src/main-webform.js' ],
-                    'public/js/enketo-webform-edit-dev-bundle.js': [ 'public/js/src/main-webform-edit.js' ]
+                    'public/js/enketo-webform-edit-dev-bundle.js': [ 'public/js/src/main-webform-edit.js' ],
                 },
                 options: {
                     browserifyOptions: {
-                        debug: true,
+                        debug: true
                     }
                 },
             },
             production: {
                 files: {
                     'public/js/enketo-webform-bundle.js': [ 'public/js/src/main-webform.js' ],
-                    'public/js/enketo-webform-edit-bundle.js': [ 'public/js/src/main-webform-edit.js' ]
+                    'public/js/enketo-webform-edit-bundle.js': [ 'public/js/src/main-webform-edit.js' ],
                 },
             },
             options: {
-                alias: {}
+                // ensure that enketo-config and widgets are overridden in **enketo-core**
+                transform: [
+                    [ 'aliasify', {
+                        aliases: pkg.aliasify.aliases,
+                        global: true
+                    } ]
+                ]
             },
         },
         uglify: {
