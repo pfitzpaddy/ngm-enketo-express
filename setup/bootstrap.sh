@@ -58,7 +58,6 @@ if [ -d "$ENKETO_EXPRESS_REPO_DIR/node_modules" ]; then
 	rm -R $ENKETO_EXPRESS_REPO_DIR/node_modules
 fi
 npm install
-bower install --allow-root
 
 # create a local configuration file unless it already exists
 echo 'copying custom configuration unless config.json already exists'
